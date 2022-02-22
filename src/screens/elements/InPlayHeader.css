@@ -1,0 +1,20 @@
+.inPlayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color:#f7f7f7;
+  border-bottom: 1px solid #000;
+}
+.inPlayHeader__slideCount, .inPlayHeader__share {
+  font-size: 0.8em;
+  color:#333;
+}
+.inPlayHeader__timer {
+  color:#000;
+  font-weight:bold;
+  font-size: 1.2em;
+}
+.inPlayHeader__share {
+  text-decoration: underline;
+}

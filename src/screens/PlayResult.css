@@ -1,0 +1,56 @@
+.playResult {
+  height:calc(100vh - 94px);
+  overflow:hidden;
+  padding: 20px;
+  
+}
+
+
+.playResult__yourChoices {
+  padding: 50px 0;
+}
+.playResult__yourChoicesContentWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.playResult__yourChoice {
+  width: calc(25% - 30px);
+  margin-bottom:10px;
+  position: relative;
+}
+.playResult__yourChoice img{
+  width: 100%;
+  display: block;
+  opacity: 0.4;
+}
+.playResult__emptyImg {
+  background-color:yellow;
+  width: 100%;
+  height: 100%;
+  
+}
+.playResult__yourChoice p {
+  position: absolute;
+  width: 100%;
+  height:100%;
+  top: 35%;
+  left: 0;
+  font-weight:bold;
+}
+
+
+
+
+.playResult__qrCode {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.playResult__qrWrapper {
+  background-color: #fff;
+}
+.playResult__qrCode img {
+  width: 100%;
+  display:block;
+}

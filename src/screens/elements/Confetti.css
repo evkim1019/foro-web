@@ -1,0 +1,12 @@
+.confetti {
+  position: absolute;
+  width:100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+}
+.confetti img {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+}
