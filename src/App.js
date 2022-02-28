@@ -17,6 +17,7 @@ function App() {
     setShowSplash(false)
   }, 3000);
   
+  
   return (
     <div className="foroApp">
       <div className="foroApp__wideScreen"><p>Please open on mobile devices</p></div>

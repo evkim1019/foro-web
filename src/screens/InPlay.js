@@ -1,4 +1,50 @@
 import React, { useEffect, useState } from 'react'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {
+  EmailIcon,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  HatenaIcon,
+  InstapaperIcon,
+  LineIcon,
+  LinkedinIcon,
+  LivejournalIcon,
+  MailruIcon,
+  OKIcon,
+  PinterestIcon,
+  PocketIcon,
+  RedditIcon,
+  TelegramIcon,
+  TumblrIcon,
+  TwitterIcon,
+  ViberIcon,
+  VKIcon,
+  WeiboIcon,
+  WhatsappIcon,
+  WorkplaceIcon
+} from "react-share";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton
+} from "react-share";
+
 import Confetti from './elements/Confetti'
 import InPlayHeader from './elements/InPlayHeader'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +55,12 @@ import './PlayResult.css'
 
 function InPlay() {
   const navigate = useNavigate()
+
+  const [currentLink, setCurrentLink] = useState('')
+
+  // auto copy the link
+  const [copied, setCopied] = useState(false)
+  
 
   // random background color
   const bgPick = Math.round(Math.random() * 4)
@@ -30,6 +82,7 @@ function InPlay() {
   const [displayTimeLeft, setDisplayTimeLeft] = useState('10')
   // timer countdown function
   useEffect(() => {
+
     // exit early when we reach 0
     if (!timeLeft) selectChoice({3: ''});
 
@@ -51,7 +104,16 @@ function InPlay() {
       clearInterval()
     }
 
-    
+
+    // Create current link to share
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 7; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    setCurrentLink(result)
+
   }, [timeLeft]);
 
 
@@ -81,7 +143,16 @@ function InPlay() {
       clearInterval()
       setTimeLeft(0)
     }
-    
+  }
+
+  const copyLinkClicked = () => {
+    setCopied(true)
+    fadeOutTextCopied()
+  }
+  const fadeOutTextCopied = () => {
+    setTimeout(() => {
+      setCopied(false)
+    }, 3000)
   }
   
   
@@ -129,10 +200,35 @@ function InPlay() {
             </div>
           </div>
 
-          <div className="playResult__qrCode">
+          <div className="playResult__share">
             <p>Share with your friends</p>
-            <div className="playResult__qrWrapper">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="" />
+            <div className="playResult__shareWrapper">
+              <CopyToClipboard text={`https://foro.com/${currentLink}`} onCopy={() => setCopied(true)}>
+                <p onClick={()=> copyLinkClicked()} className="playResult__copyLink" style={{backgroundColor: `${bgColorList[Math.round(Math.random() * 4)]}`}}>{copied ? "Copied!" : "Copy link"}</p>
+              </CopyToClipboard>
+            </div>
+
+            <div className="playResult__social">
+              
+              <FacebookShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} hashtag={"#FORO"} quote={""}>
+                <FacebookIcon size={40} round />
+              </FacebookShareButton>
+
+              <WhatsappShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} title={``}>
+                <WhatsappIcon size={40} round />
+              </WhatsappShareButton>
+
+              <RedditShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} title={``}>
+                <RedditIcon size={40} round />
+              </RedditShareButton>
+
+              <TelegramShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} title={``}>
+                <TelegramIcon size={40} round />
+              </TelegramShareButton>
+
+              <TwitterShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} hashtag={"#FORO"} title={``}>
+                <TwitterIcon size={40} round />
+              </TwitterShareButton>
             </div>
             
             
