@@ -6,15 +6,9 @@ function InPlayHeader(props) {
 
   return (
     <div className="inPlayHeader">
-      { props.count <= 10 ? (
-        <div className="inPlayHeader__slideCount">
-          {props.count} / 10
-        </div>
-      ) : (
-        <div className="inPlayHeader__slideCount">
-          10 / 10
-        </div>
-      )}
+      <div className="inPlayHeader__share">
+         FORO
+      </div>
       
 
       { props.count <= 10 ? (
@@ -28,9 +22,16 @@ function InPlayHeader(props) {
       )}
       
 
-      <div className="inPlayHeader__share">
-        SHARE
-      </div>
+      { props.count <= 10 ? (
+        <div className="inPlayHeader__slideCount">
+          {props.count} / 10
+        </div>
+      ) : (
+        <div className="inPlayHeader__slideCount">
+          10 / 10
+        </div>
+      )}
+      
     </div>
   )
 }
