@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Emoji from "react-emoji-render";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {
   FacebookIcon,
@@ -19,18 +20,18 @@ import Confetti from './elements/Confetti'
 import InPlayHeader from './elements/InPlayHeader'
 import { useNavigate } from 'react-router-dom'
 
-import geo1 from '../img/geo1.svg'
 import './InPlay.css'
 import './PlayResult.css'
 
-function InPlay() {
+function InPlayCompare() {
   const navigate = useNavigate()
 
   const [currentLink, setCurrentLink] = useState('')
+  const [originalAnswer, setOriginalAnswer] = useState(document.location.href.split('/')[document.location.href.split('/').length - 1].split(''))
+  const [publicChoices, setPublicChoices] = useState([1,2,1,1,2,1,1,2,1,2])
 
   // auto copy the link
   const [copied, setCopied] = useState(false)
-  
 
   // random background color
   const bgPick = Math.round(Math.random() * 4)
@@ -76,7 +77,7 @@ function InPlay() {
     setCurrentLink(myChoiceList.map(choice => Object.keys(choice)[0]).join(''))
 
 
-    // Create current link to share
+    // Create a random id as a current link to share
     // var result           = '';
     // var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     // var charactersLength = characters.length;
@@ -87,6 +88,7 @@ function InPlay() {
 
   }, [timeLeft]);
 
+  // console.log('text test', document.querySelector(".playResult__hero").querySelector("h1"))
 
   const [myChoiceList, setMyChoiceList] = useState([])
   const selectChoice = (choice) => {
@@ -113,6 +115,7 @@ function InPlay() {
       setTimeLeft(0)
     }
   }
+
   
   const copyLinkClicked = () => {
     setCopied(true)
@@ -124,65 +127,88 @@ function InPlay() {
     }, 3000)
   }
   
-  
 
   return (
     <div className="inPlayApp" style={{backgroundColor: `${bgColor}`}}>
       {showConfetti ? <Confetti /> : ""}
       <InPlayHeader count={slideCount} timeLeft={displayTimeLeft} />
-      
+      {slideCount > 10 ? 
+      <div className="playResult__hero">
+        <h1>Yeahee!</h1>
+        <p>asdf</p>
+      </div>
+      : null }
       {slideCount > 10 ? 
         <div className="playResult">
-          <div className="playResult__hero">
-            <h1>Yeahee!</h1>
-            <p>asdf</p>
-          </div>
 
-          <div className="playResult__yourChoices">
-            <p>Your Choices VS Public</p>
+          <div className="playResult__matchChoices">
+            <p>VS Friend</p>
             <div className="playResult__yourChoicesContentWrapper">
               {myChoiceList.map((choice, index) => {
-                if (choice && Object.keys(choice)[0] == 1){
+                if (choice && Object.keys(choice)[0] == originalAnswer[index]){
                   return(
-                    <div className="playResult__yourChoice" style={{backgroundColor:"black"}}>
+                    <div className="playResult__yourChoice" style={{backgroundColor:"green"}}>
                       <img src={Object.values(choice)[0]} alt="" />
-                      <p>40%</p>
+                      <p>Match</p>
                     </div>
                   )
-                } else if(choice && Object.keys(choice)[0] == 2) {
+                } else if(choice && Object.keys(choice)[0] !== originalAnswer[index]) {
                   return(
                     <div className="playResult__yourChoice" style={{backgroundColor:"red"}}>
-                      <img src={Object.values(choice)[0]} alt="" />
-                      <p>40%</p>
-                    </div>
-                  )
-                } else {
-                  return(
-                    <div className="playResult__yourChoice" style={{backgroundColor:"blue"}}>
                       <div className="playResult__emptyImg"></div>
-                      <p>40%</p>
+                      <p>Unmatch</p>
                     </div>
                   )
-                }
+                } 
               })}
             </div>
           </div>
 
+          <div className="playResult__publicChoices">
+            <p>VS Public</p>
+            <div className="playResult__yourChoicesContentWrapper">
+              {myChoiceList.map((choice, index) => {
+                if (choice && Object.keys(choice)[0] == publicChoices[index]){
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"green"}}>
+                      <img src={Object.values(choice)[0]} alt="" />
+                      <p>Match</p>
+                    </div>
+                  )
+                } else if(choice && Object.keys(choice)[0] !== publicChoices[index]) {
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"red"}}>
+                      <div className="playResult__emptyImg"></div>
+                      <p>Unmatch</p>
+                    </div>
+                  )
+                } 
+              })}
+            </div>
+          </div>
+          
+          
+
           <div className="playResult__share">
             <p>Share with your friends</p>
-            <div className="playResult__shareWrapper">
-              <CopyToClipboard text={`https://foro.com/${currentLink}`} onCopy={() => setCopied(true)}>
-                <p onClick={()=> copyLinkClicked()} className="playResult__copyLink" style={{backgroundColor: `${bgColorList[Math.round(Math.random() * 4)]}`}}>{copied ? "Copied!" : "Copy link"}</p>
-              </CopyToClipboard>
-            </div>
 
             <div className="playResult__social">
               
-              <FacebookShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} hashtag={"#FORO"} quote={""}>
+              <FacebookShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} hashtag={"#FORO"} quote={`
+                ${myChoiceList.map((choice, index) => {
+                  if(choice && Object.keys(choice)[0] == originalAnswer[index]) {
+                    return ("🦁")
+                  } else {
+                    return (`${🔒&#xFE0E;}`)
+                  }
+                })}
+              `}>
                 <FacebookIcon size={40} round />
               </FacebookShareButton>
 
-              <WhatsappShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} title={``}>
+              <WhatsappShareButton url={`https://foro.com/${currentLink}`} openShareDialogOnClick={true} title={
+                myChoiceList.map((choice, index) => (`${choice && Object.keys(choice)[0] == originalAnswer[index] ?  `O` : 'X'}`)).join('')
+              }>
                 <WhatsappIcon size={40} round />
               </WhatsappShareButton>
 
@@ -231,4 +257,4 @@ function InPlay() {
   )
 }
 
-export default InPlay
+export default InPlayCompare

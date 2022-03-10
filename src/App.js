@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import InPlay from './screens/InPlay';
+import InPlayCompare from './screens/InPlayCompare';
 import PlayResult from './screens/PlayResult';
 import Splash from './screens/Splash';
 
@@ -25,7 +26,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={ showSplash ? <Splash /> : <InPlay />} />
-          <Route exact path="result" element={<PlayResult />} />
+          <Route path="/*" element={ showSplash ? <Splash /> : <InPlayCompare />} />
         </Routes>
       </Router>
     </div>

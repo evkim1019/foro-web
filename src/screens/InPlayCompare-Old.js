@@ -19,18 +19,17 @@ import Confetti from './elements/Confetti'
 import InPlayHeader from './elements/InPlayHeader'
 import { useNavigate } from 'react-router-dom'
 
-import geo1 from '../img/geo1.svg'
 import './InPlay.css'
 import './PlayResult.css'
 
-function InPlay() {
+function InPlayCompare() {
   const navigate = useNavigate()
 
   const [currentLink, setCurrentLink] = useState('')
-
+  const [originalAnswer, setOriginalAnswer] = useState(document.location.href.split('/')[document.location.href.split('/').length - 1].split(''))
+  const [ matchResult, setMatchResult] = useState([])
   // auto copy the link
   const [copied, setCopied] = useState(false)
-  
 
   // random background color
   const bgPick = Math.round(Math.random() * 4)
@@ -76,7 +75,7 @@ function InPlay() {
     setCurrentLink(myChoiceList.map(choice => Object.keys(choice)[0]).join(''))
 
 
-    // Create current link to share
+    // Create a random id as a current link to share
     // var result           = '';
     // var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     // var charactersLength = characters.length;
@@ -86,6 +85,7 @@ function InPlay() {
     // setCurrentLink(result)
 
   }, [timeLeft]);
+
 
 
   const [myChoiceList, setMyChoiceList] = useState([])
@@ -113,6 +113,7 @@ function InPlay() {
       setTimeLeft(0)
     }
   }
+
   
   const copyLinkClicked = () => {
     setCopied(true)
@@ -124,22 +125,76 @@ function InPlay() {
     }, 3000)
   }
   
-  
 
   return (
     <div className="inPlayApp" style={{backgroundColor: `${bgColor}`}}>
       {showConfetti ? <Confetti /> : ""}
       <InPlayHeader count={slideCount} timeLeft={displayTimeLeft} />
-      
+      {slideCount > 10 ? 
+      <div className="playResult__hero">
+        <h1>Yeahee!</h1>
+        <p>asdf</p>
+      </div>
+      : null }
       {slideCount > 10 ? 
         <div className="playResult">
-          <div className="playResult__hero">
-            <h1>Yeahee!</h1>
-            <p>asdf</p>
+
+          <div className={`playResultCompare__yourChoices`}>
+            <p>Your Choices</p>
+            <div className="playResult__yourChoicesContentWrapper">
+              {originalAnswer.map((choice, index) => {
+                if (choice && choice == 1){
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"black"}}>
+                      <img src="https://picsum.photos/800/600?random=1" alt="" />
+                      <p>40%</p>
+                    </div>
+                  )
+                } else if(choice && choice == 2) {
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"red"}}>
+                      <img src="https://picsum.photos/800/600?random=2" alt="" />
+                      <p>40%</p>
+                    </div>
+                  )
+                } else if(choice && choice == 3){
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"blue"}}>
+                      <div className="playResult__emptyImg"></div>
+                      <p>40%</p>
+                    </div>
+                  )
+                }
+              })}
+            </div>
           </div>
 
-          <div className="playResult__yourChoices">
-            <p>Your Choices VS Public</p>
+
+          <div className={`playResult__matchChoices`}>
+            <p>Your Choices VS Your Friend's Choices</p>
+            <div className="playResult__yourChoicesContentWrapper">
+              {myChoiceList.map((choice, index) => {
+                if (choice && Object.keys(choice)[0] == originalAnswer[index]){
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"green"}}>
+                      <img src={Object.values(choice)[0]} alt="" />
+                      <p>Match</p>
+                    </div>
+                  )
+                } else if(choice && Object.keys(choice)[0] !== originalAnswer[index]) {
+                  return(
+                    <div className="playResult__yourChoice" style={{backgroundColor:"red"}}>
+                      <div className="playResult__emptyImg"></div>
+                      <p>Unmatch</p>
+                    </div>
+                  )
+                } 
+              })}
+            </div>
+          </div>
+          
+          <div className={`playResult__friendsChoices`}>
+            <p>Friend's Choices</p>
             <div className="playResult__yourChoicesContentWrapper">
               {myChoiceList.map((choice, index) => {
                 if (choice && Object.keys(choice)[0] == 1){
@@ -170,11 +225,6 @@ function InPlay() {
 
           <div className="playResult__share">
             <p>Share with your friends</p>
-            <div className="playResult__shareWrapper">
-              <CopyToClipboard text={`https://foro.com/${currentLink}`} onCopy={() => setCopied(true)}>
-                <p onClick={()=> copyLinkClicked()} className="playResult__copyLink" style={{backgroundColor: `${bgColorList[Math.round(Math.random() * 4)]}`}}>{copied ? "Copied!" : "Copy link"}</p>
-              </CopyToClipboard>
-            </div>
 
             <div className="playResult__social">
               
@@ -231,4 +281,4 @@ function InPlay() {
   )
 }
 
-export default InPlay
+export default InPlayCompare

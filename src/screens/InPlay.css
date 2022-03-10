@@ -1,6 +1,10 @@
 .inPlayApp {
   overflow:hidden;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  position: fixed;
+  top:0;
+  width:100%;
 }
 
 
@@ -15,13 +19,15 @@
 }
 .inPlay__imageWrapper {
   padding: 0 10px;
-  margin-bottom:25px;
-  position: absolute;
+  position: relative;
   bottom:10px;
   width: calc(100% - 20px);
+  height: calc(100vh - 120px);
+  max-height: 80%;
 }
 .inPlay__image {
-  height: 40vh;
+  height: 50%;
+  display: block;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -31,7 +37,7 @@
 }
 .inPlay__vsWrapper {
   position: absolute;
-  top: calc(50% - 70px);
+  top: calc(50% - 50px);
   left: calc(50% - 50px);
   width:100px;
   height:100px;

@@ -1,17 +1,16 @@
 .playResult {
-  height:calc(100vh - 94px);
+  height:calc(100vh - 230px);
   overflow:hidden;
   padding: 20px;
-  
+  position: relative;
 }
 
 
 .playResult__hero {
   margin-top: 30px;
+  margin-bottom: 50px;
 }
-.playResult__yourChoices {
-  padding: 50px 0;
-}
+
 .playResult__yourChoicesContentWrapper {
   display: flex;
   justify-content: space-between;
@@ -19,7 +18,7 @@
   margin-top: 10px;
 }
 .playResult__yourChoice {
-  width: calc(25% - 20px);
+  width: calc(100% / 5 - 6px);
   margin-bottom:3px;
   position: relative;
 }
@@ -30,7 +29,7 @@
 }
 .playResult__emptyImg {
   width: 100%;
-  height:calc((25vw - 30px) * 0.65);
+  height:calc((25vw - 30px) * 0.7);
 }
 .playResult__yourChoice p {
   position: absolute;
@@ -38,11 +37,108 @@
   top: 35%;
   left: 0;
   font-weight:bold;
+  color: #fff;
+  font-size: 11px;
+}
+
+
+/* Animation */
+
+/* Friend's result fadein */
+/* .playResult__friendsChoices {
+  position: absolute;
+  width: calc(100% - 40px);
+  top: 20px;
+  opacity: 0;
+  animation-name: fadein;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+} */
+/* Friend's result move up to overlap */
+.playResult__friendsChoices {
+  position: absolute;
+  width: calc(100% - 40px);
+  top: 20px;
+  animation-name: moveup, friendsFadeout;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  opacity: 0;
+}
+@keyframes moveup {
+  from {
+    top: 200px;
+  }
+  25% {
+    top: 200px;
+  }
+  to {
+    top: 20px;
+  }
+}
+@keyframes friendsFadeout {
+  from {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Mine and friend's result fadeout */
+.playResultCompare__yourChoices {
+  animation-name: yoursFadeout;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  opacity: 0;
+}
+@keyframes yoursFadeout {
+  from {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/* Match result replace the mine&friends fadeout spot */
+.playResult__matchChoices {
+  /* animation-name: fadein; */
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  /* position: absolute;
+  top: 20px;
+  width: calc(100% - 40px); */
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+.playResult__publicChoices {
+  margin-top: 40px;
 }
 
 
 
 
+.playResult__share {
+  padding-top: 50px;
+  position: absolute;
+  width: calc(100% - 40px);
+  bottom: 150px;
+}
 .playResult__copyLink {
   padding: 20px 30px;
   border: 1px solid #000;
@@ -58,7 +154,7 @@
   padding-top: 40px;
   display: flex;
   justify-content: space-between;
-  padding: 40px 20px 0 20px;
+  padding: 20px 20px 0 20px;
   max-width: 300px;
   margin: 0 auto;
 }
