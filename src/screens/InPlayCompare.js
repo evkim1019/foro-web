@@ -199,7 +199,7 @@ function InPlayCompare() {
                   if(choice && Object.keys(choice)[0] == originalAnswer[index]) {
                     return ("🦁")
                   } else {
-                    return (`${🔒&#xFE0E;}`)
+                    return (`O`)
                   }
                 })}
               `}>
